@@ -1,0 +1,74 @@
+/* Medical Green Theme */
+
+.root {
+    -fx-font-family: "Segoe UI";
+}
+
+.menu-bar {
+    -fx-background-color: #1b5e20;
+}
+
+.menu-bar .menu {
+    -fx-text-fill: white;
+}
+
+.menu-bar .menu:hover {
+    -fx-background-color: #2e7d32;
+}
+
+.tab {
+    -fx-background-color: #c8e6c9;
+    -fx-padding: 8 15 8 15;
+}
+
+.tab:selected {
+    -fx-background-color: #2e7d32;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: white;
+}
+
+.button {
+    -fx-background-color: #2e7d32;
+    -fx-text-fill: white;
+    -fx-padding: 8 15 8 15;
+    -fx-background-radius: 5;
+}
+
+.button:hover {
+    -fx-background-color: #1b5e20;
+}
+
+.table-view .column-header {
+    -fx-background-color: #2e7d32;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f1f8e9;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #66bb6a;
+}
+
+.text-field, .text-area, .date-picker, .combo-box {
+    -fx-border-color: #a5d6a7;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 5;
+}
+
+.text-field:focused, .text-area:focused {
+    -fx-border-color: #2e7d32;
+    -fx-border-width: 2;
+}
+
+.label {
+    -fx-text-fill: #1b5e20;
+}
