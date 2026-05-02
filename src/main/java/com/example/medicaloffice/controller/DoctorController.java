@@ -143,27 +143,36 @@ public class DoctorController {
 
     @FXML
     private void searchDoctors() {
-        String text = doctorSearchField.getText().toLowerCase();
+        String text = doctorSearchField.getText().toLowerCase().trim();
+
         if (text.isEmpty()) {
             doctorsTable.setItems(FXCollections.observableArrayList(dataManager.getAllDoctors()));
+            if (statusLabel != null) statusLabel.setText("Εμφανίζονται όλοι οι ιατροί");
             return;
         }
 
         List<Doctor> filtered = dataManager.getAllDoctors().stream()
-                .filter(d -> d.getId().toLowerCase().contains(text) ||
-                        d.getName().toLowerCase().contains(text) ||
-                        d.getSurname().toLowerCase().contains(text) ||
-                        d.getSpecialty().getGreekName().toLowerCase().contains(text))
+                .filter(d -> (d.getId() != null && d.getId().toLowerCase().contains(text)) ||
+                        (d.getName() != null && d.getName().toLowerCase().contains(text)) ||
+                        (d.getSurname() != null && d.getSurname().toLowerCase().contains(text)) ||
+                        (d.getSpecialty().getGreekName().toLowerCase().contains(text)))
                 .toList();
+
         doctorsTable.setItems(FXCollections.observableArrayList(filtered));
-        if (statusLabel != null) statusLabel.setText("Βρέθηκαν " + filtered.size() + " ιατροί");
+
+        if (filtered.isEmpty()) {
+            if (statusLabel != null) statusLabel.setText("Δεν βρέθηκαν ιατροί");
+        } else {
+            if (statusLabel != null) statusLabel.setText("Βρέθηκαν " + filtered.size() + " ιατροί");
+        }
     }
 
     @FXML
     private void resetDoctorSearch() {
         doctorSearchField.clear();
         doctorsTable.setItems(FXCollections.observableArrayList(dataManager.getAllDoctors()));
-        if (statusLabel != null) statusLabel.setText("Εμφανίζονται όλοι οι ιατροί");
+        doctorsTable.refresh();
+        if (statusLabel != null) statusLabel.setText("Εμφανίζονται όλοι οι ιατροί (" + dataManager.getAllDoctors().size() + ")");
     }
 
     private boolean isValidName(String name) {

@@ -138,26 +138,24 @@ public class AppointmentController {
 
     private boolean validateAppointmentFields() {
         boolean isValid = true;
-        StringBuilder errors = new StringBuilder();
 
         if (appointmentPatientCombo.getValue() == null) {
-            if (statusLabel != null) statusLabel.setText("Σφάλμα: Επιλέξτε ασθενή");
+            setStatusError("Επιλέξτε ασθενή");
             isValid = false;
         }
 
         if (appointmentDoctorCombo.getValue() == null) {
-            if (statusLabel != null) statusLabel.setText("Σφάλμα: Επιλέξτε ιατρό");
+            setStatusError("Επιλέξτε ιατρό");
             isValid = false;
         }
 
         if (appointmentDatePicker.getValue() == null) {
-            if (statusLabel != null) statusLabel.setText("Σφάλμα: Επιλέξτε ημερομηνία");
+            setStatusError("Επιλέξτε ημερομηνία");
             isValid = false;
         }
 
         if (!isValidTime(appointmentTimeField.getText())) {
             setFieldError(appointmentTimeField, true, "Ώρα: μορφή HH:MM (π.χ. 14:30)");
-            errors.append("- Ώρα\n");
             isValid = false;
         } else {
             resetFieldStyle(appointmentTimeField);
@@ -165,14 +163,9 @@ public class AppointmentController {
 
         if (appointmentReasonField.getText() == null || appointmentReasonField.getText().trim().isEmpty()) {
             setFieldError(appointmentReasonField, true, "Λόγος Επίσκεψης είναι υποχρεωτικός");
-            errors.append("- Λόγος Επίσκεψης\n");
             isValid = false;
         } else {
             resetFieldStyle(appointmentReasonField);
-        }
-
-        if (!isValid && statusLabel != null) {
-            statusLabel.setText("Σφάλμα: Συμπληρώστε σωστά τα πεδία:\n" + errors.toString());
         }
 
         return isValid;
@@ -199,7 +192,6 @@ public class AppointmentController {
         }
     }
 
-
     @FXML
     private void handleAddAppointment() {
         if (!validateAppointmentFields()) return;
@@ -224,20 +216,17 @@ public class AppointmentController {
             if (oldId != null && !oldId.isEmpty()) {
                 dataManager.deleteAppointment(oldId);
                 appointmentPatientCombo.setUserData(null);
-                if (statusLabel != null) statusLabel.setText("Ραντεβού ενημερώθηκε");
-            } else {
-                if (statusLabel != null) statusLabel.setText("Ραντεβού κλείστηκε");
             }
 
             if (dataManager.addAppointment(appointment)) {
                 loadData();
                 clearForm();
-                if (statusLabel != null) setStatusSuccess("Ραντεβού κλείστηκε");
+                setStatusSuccess("Ραντεβού κλείστηκε");
             } else {
-                if (statusLabel != null) setStatusError("Ο ιατρός ή ο ασθενής έχει ήδη ραντεβού αυτή την ώρα");
+                setStatusError("Ο ιατρός ή ο ασθενής έχει ήδη ραντεβού αυτή την ώρα");
             }
         } catch (Exception e) {
-            if (statusLabel != null) statusLabel.setText("Σφάλμα: " + e.getMessage());
+            setStatusError("Σφάλμα: " + e.getMessage());
         }
     }
 
@@ -249,7 +238,7 @@ public class AppointmentController {
         appointmentReasonField.setText(a.getReason());
         appointmentNotesArea.setText(a.getNotes());
         appointmentPatientCombo.setUserData(a.getAppointmentId());
-        if (statusLabel != null) statusLabel.setText("Επεξεργασία ραντεβού");
+        setStatusInfo("Επεξεργασία ραντεβού");
     }
 
     private void deleteAppointment(Appointment a) {
@@ -261,13 +250,14 @@ public class AppointmentController {
         if (alert.showAndWait().get() == ButtonType.OK) {
             dataManager.deleteAppointment(a.getAppointmentId());
             loadData();
-            if (statusLabel != null) statusLabel.setText("Ραντεβού διαγράφηκε");
+            setStatusSuccess("Ραντεβού διαγράφηκε");
         }
     }
 
     @FXML
     private void handleClearAppointmentForm() {
         clearForm();
+        setStatusInfo("Η φόρμα καθαρίστηκε");
     }
 
     private void clearForm() {
@@ -282,35 +272,48 @@ public class AppointmentController {
 
     @FXML
     private void handleSearchAppointments() {
-        String searchText = searchField.getText().toLowerCase();
+        String searchText = searchField.getText().toLowerCase().trim();
+
         if (searchText.isEmpty()) {
             appointmentsTable.setItems(FXCollections.observableArrayList(dataManager.getAllAppointments()));
+            appointmentsTable.refresh();
+            setStatusInfo("Εμφανίζονται όλα τα ραντεβού (" + dataManager.getAllAppointments().size() + ")");
             return;
         }
 
         ObservableList<Appointment> filtered = FXCollections.observableArrayList();
         for (Appointment a : dataManager.getAllAppointments()) {
-            if (a.getPatient().getFullName().toLowerCase().contains(searchText) ||
-                    a.getDoctor().getFullName().toLowerCase().contains(searchText) ||
+            if ((a.getPatient().getFullName() != null && a.getPatient().getFullName().toLowerCase().contains(searchText)) ||
+                    (a.getDoctor().getFullName() != null && a.getDoctor().getFullName().toLowerCase().contains(searchText)) ||
                     (a.getReason() != null && a.getReason().toLowerCase().contains(searchText))) {
                 filtered.add(a);
             }
         }
+
         appointmentsTable.setItems(filtered);
-        if (statusLabel != null) statusLabel.setText("Βρέθηκαν " + filtered.size() + " ραντεβού");
+        appointmentsTable.refresh();
+
+        if (filtered.isEmpty()) {
+            setStatusInfo("Δεν βρέθηκαν ραντεβού");
+        } else {
+            setStatusInfo("Βρέθηκαν " + filtered.size() + " από " + dataManager.getAllAppointments().size() + " ραντεβού");
+        }
     }
 
     @FXML
     private void handleTodayAppointments() {
         List<Appointment> todayAppointments = dataManager.getAppointmentsForToday();
         appointmentsTable.setItems(FXCollections.observableArrayList(todayAppointments));
-        if (statusLabel != null) statusLabel.setText("Ραντεβού σήμερα: " + todayAppointments.size());
+        appointmentsTable.refresh();
+        setStatusInfo("Ραντεβού σήμερα: " + todayAppointments.size());
     }
 
     @FXML
     private void handleShowAllAppointments() {
+        searchField.clear();
         appointmentsTable.setItems(FXCollections.observableArrayList(dataManager.getAllAppointments()));
-        if (statusLabel != null) statusLabel.setText("Εμφανίζονται όλα τα ραντεβού");
+        appointmentsTable.refresh();
+        setStatusInfo("Εμφανίζονται όλα τα ραντεβού (" + dataManager.getAllAppointments().size() + ")");
     }
 
     @FXML
@@ -337,9 +340,9 @@ public class AppointmentController {
                             a.getReason().replace(",", " "),
                             a.getNotes().replace(",", " "));
                 }
-                if (statusLabel != null) statusLabel.setText("Εξαγωγή ραντεβού σε " + file.getName());
+                setStatusSuccess("Εξαγωγή ραντεβού σε " + file.getName());
             } catch (Exception e) {
-                if (statusLabel != null) statusLabel.setText("Σφάλμα: " + e.getMessage());
+                setStatusError("Σφάλμα: " + e.getMessage());
             }
         }
     }

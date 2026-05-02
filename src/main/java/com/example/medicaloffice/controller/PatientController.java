@@ -142,27 +142,39 @@ public class PatientController {
 
     @FXML
     private void searchPatients() {
-        String text = patientSearchField.getText().toLowerCase();
+        String text = patientSearchField.getText().toLowerCase().trim();
+
         if (text.isEmpty()) {
+            // Αν η αναζήτηση είναι κενή, εμφάνισε όλους
             patientsTable.setItems(FXCollections.observableArrayList(dataManager.getAllPatients()));
+            if (statusLabel != null) statusLabel.setText("Εμφανίζονται όλοι οι ασθενείς");
             return;
         }
 
         List<Patient> filtered = dataManager.getAllPatients().stream()
-                .filter(p -> p.getId().toLowerCase().contains(text) ||
-                        p.getName().toLowerCase().contains(text) ||
-                        p.getSurname().toLowerCase().contains(text) ||
-                        p.getAmka().toLowerCase().contains(text))
+                .filter(p -> (p.getId() != null && p.getId().toLowerCase().contains(text)) ||
+                        (p.getName() != null && p.getName().toLowerCase().contains(text)) ||
+                        (p.getSurname() != null && p.getSurname().toLowerCase().contains(text)) ||
+                        (p.getAmka() != null && p.getAmka().toLowerCase().contains(text)))
                 .toList();
+
         patientsTable.setItems(FXCollections.observableArrayList(filtered));
-        if (statusLabel != null) statusLabel.setText("Βρέθηκαν " + filtered.size() + " ασθενείς");
+
+        if (filtered.isEmpty()) {
+            if (statusLabel != null) statusLabel.setText("Δεν βρέθηκαν ασθενείς");
+        } else {
+            if (statusLabel != null) statusLabel.setText("Βρέθηκαν " + filtered.size() + " ασθενείς");
+        }
     }
 
     @FXML
     private void resetPatientSearch() {
         patientSearchField.clear();
+        // Φόρτωση όλων των ασθενών ξανά
         patientsTable.setItems(FXCollections.observableArrayList(dataManager.getAllPatients()));
-        if (statusLabel != null) statusLabel.setText("Εμφανίζονται όλοι οι ασθενείς");
+        // Ανανέωση του πίνακα
+        patientsTable.refresh();
+        if (statusLabel != null) statusLabel.setText("Εμφανίζονται όλοι οι ασθενείς (" + dataManager.getAllPatients().size() + ")");
     }
 
     private boolean isValidName(String name) {
