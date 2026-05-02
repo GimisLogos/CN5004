@@ -53,6 +53,8 @@ public class CalendarController {
         showDayAppointments(selectedDate);
     }
 
+
+
     private void refreshCalendar() {
         if (currentYearMonth == null) {
             currentYearMonth = YearMonth.now();

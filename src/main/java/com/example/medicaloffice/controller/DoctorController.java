@@ -50,6 +50,29 @@ public class DoctorController {
         this.statusLabel = statusLabel;
     }
 
+    private void setStatusSuccess(String message) {
+        if (statusLabel != null) {
+            statusLabel.setText("✅ " + message);
+            statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold; -fx-font-size: 14px;");
+        }
+    }
+
+    private void setStatusError(String message) {
+        if (statusLabel != null) {
+            statusLabel.setText("❌ " + message);
+            statusLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold; -fx-font-size: 14px;");
+        }
+    }
+
+    private void setStatusInfo(String message) {
+        if (statusLabel != null) {
+            statusLabel.setText("ℹ️ " + message);
+            statusLabel.setStyle("-fx-text-fill: #3498db; -fx-font-weight: bold; -fx-font-size: 14px;");
+        }
+    }
+
+
+
     @FXML
     public void initialize() {
         doctorSpecialtyCombo.setItems(FXCollections.observableArrayList(Specialty.values()));

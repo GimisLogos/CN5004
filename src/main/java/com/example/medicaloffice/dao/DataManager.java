@@ -335,9 +335,19 @@ public class DataManager {
     }
 
     private boolean isDoubleBooked(Appointment appointment) {
-        return appointments.stream()
-                .anyMatch(a -> a.getDoctor().getId().equals(appointment.getDoctor().getId()) &&
-                        a.getDateTime().equals(appointment.getDateTime()));
+        // Έλεγχος για διπλοκράτηση ιατρού
+        boolean doctorBusy = appointments.stream().anyMatch(a ->
+                a.getDoctor().getId().equals(appointment.getDoctor().getId()) &&
+                        a.getDateTime().equals(appointment.getDateTime())
+        );
+
+        // Έλεγχος για διπλοκράτηση ασθενούς
+        boolean patientBusy = appointments.stream().anyMatch(a ->
+                a.getPatient().getId().equals(appointment.getPatient().getId()) &&
+                        a.getDateTime().equals(appointment.getDateTime())
+        );
+
+        return doctorBusy || patientBusy;
     }
 
     public void deleteAppointment(String appointmentId) {

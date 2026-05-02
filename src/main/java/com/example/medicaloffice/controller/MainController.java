@@ -24,6 +24,7 @@ public class MainController {
     public void setDataManager(DataManager dataManager) {
         this.dataManager = dataManager;
         loadTabs();
+        setStatusReady();
     }
 
     private void loadTabs() {
@@ -54,7 +55,7 @@ public class MainController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Node content = loader.load();
 
-            // Get controller and pass DataManager
+            // Get controller and pass DataManager and statusLabel
             Object controller = loader.getController();
             if (controller instanceof PatientController) {
                 ((PatientController) controller).setDataManager(dataManager);
@@ -77,8 +78,46 @@ public class MainController {
             VBox errorBox = new VBox();
             errorBox.getChildren().add(new Label("Error loading " + title));
             tab.setContent(errorBox);
+            setStatusError("Σφάλμα φόρτωσης: " + title);
         }
 
         return tab;
+    }
+
+    // ==================== STATUS METHODS ====================
+
+    public void setStatusSuccess(String message) {
+        if (statusLabel != null) {
+            statusLabel.setText("✅ " + message);
+            statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold; -fx-font-size: 14px;");
+        }
+    }
+
+    public void setStatusError(String message) {
+        if (statusLabel != null) {
+            statusLabel.setText("❌ " + message);
+            statusLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold; -fx-font-size: 14px;");
+        }
+    }
+
+    public void setStatusInfo(String message) {
+        if (statusLabel != null) {
+            statusLabel.setText("ℹ️ " + message);
+            statusLabel.setStyle("-fx-text-fill: #3498db; -fx-font-weight: bold; -fx-font-size: 14px;");
+        }
+    }
+
+    public void setStatusWarning(String message) {
+        if (statusLabel != null) {
+            statusLabel.setText("⚠️ " + message);
+            statusLabel.setStyle("-fx-text-fill: #f39c12; -fx-font-weight: bold; -fx-font-size: 14px;");
+        }
+    }
+
+    public void setStatusReady() {
+        if (statusLabel != null) {
+            statusLabel.setText("✅ Ready");
+            statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold; -fx-font-size: 14px;");
+        }
     }
 }

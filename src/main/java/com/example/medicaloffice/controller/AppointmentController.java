@@ -178,6 +178,28 @@ public class AppointmentController {
         return isValid;
     }
 
+    private void setStatusSuccess(String message) {
+        if (statusLabel != null) {
+            statusLabel.setText("✅ " + message);
+            statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold; -fx-font-size: 14px;");
+        }
+    }
+
+    private void setStatusError(String message) {
+        if (statusLabel != null) {
+            statusLabel.setText("❌ " + message);
+            statusLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold; -fx-font-size: 14px;");
+        }
+    }
+
+    private void setStatusInfo(String message) {
+        if (statusLabel != null) {
+            statusLabel.setText("ℹ️ " + message);
+            statusLabel.setStyle("-fx-text-fill: #3498db; -fx-font-weight: bold; -fx-font-size: 14px;");
+        }
+    }
+
+
     @FXML
     private void handleAddAppointment() {
         if (!validateAppointmentFields()) return;
@@ -210,8 +232,9 @@ public class AppointmentController {
             if (dataManager.addAppointment(appointment)) {
                 loadData();
                 clearForm();
+                if (statusLabel != null) setStatusSuccess("Ραντεβού κλείστηκε");
             } else {
-                if (statusLabel != null) statusLabel.setText("Σφάλμα: Υπάρχει ήδη ραντεβού");
+                if (statusLabel != null) setStatusError("Ο ιατρός ή ο ασθενής έχει ήδη ραντεβού αυτή την ώρα");
             }
         } catch (Exception e) {
             if (statusLabel != null) statusLabel.setText("Σφάλμα: " + e.getMessage());
