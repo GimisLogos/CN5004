@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.medicaloffice.controller.AppointmentController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <Label text="Κλείσιμο Νέου Ραντεβού" styleClass="form-title"/>
+
+    <VBox styleClass="form-card">
+        <GridPane hgap="15" vgap="12">
+            <Label text="Ασθενής *" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-text-fill: #2c3e50;"/>
+            <ComboBox fx:id="appointmentPatientCombo" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="250"/>
+
+            <Label text="Ιατρός *" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-text-fill: #2c3e50;"/>
+            <ComboBox fx:id="appointmentDoctorCombo" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="250"/>
+
+            <Label text="Ημερομηνία *" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-text-fill: #2c3e50;"/>
+            <DatePicker fx:id="appointmentDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+            <Label text="Ώρα *" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-text-fill: #2c3e50;"/>
+            <TextField fx:id="appointmentTimeField" GridPane.columnIndex="1" GridPane.rowIndex="3" promptText="HH:MM"/>
+
+            <Label text="Λόγος Επίσκεψης *" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-text-fill: #2c3e50;"/>
+            <TextField fx:id="appointmentReasonField" GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="300"/>
+
+            <Label text="Σημειώσεις" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+            <TextArea fx:id="appointmentNotesArea" GridPane.columnIndex="1" GridPane.rowIndex="5" prefHeight="60" prefWidth="300"/>
+
+            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                <Button text="Κλείσιμο Ραντεβού" onAction="#handleAddAppointment" styleClass="button-primary"/>
+                <Button text="Καθαρισμός" onAction="#handleClearAppointmentForm"/>
+                <Button text="Εξαγωγή CSV" onAction="#exportAppointmentsToCSV" styleClass="button"/>
+            </HBox>
+        </GridPane>
+    </VBox>
+
+    <Separator/>
+
+    <HBox spacing="10">
+        <Label text="Αναζήτηση:"/>
+        <TextField fx:id="searchField" promptText="Αναζήτηση με όνομα ασθενούς, ιατρού ή λόγο..." HBox.hgrow="ALWAYS"/>
+        <Button text="Αναζήτηση" onAction="#handleSearchAppointments" styleClass="button-primary"/>
+        <Button text="Σήμερα" onAction="#handleTodayAppointments"/>
+        <Button text="Όλα" onAction="#handleShowAllAppointments"/>
+    </HBox>
+
+    <TableView fx:id="appointmentsTable" prefHeight="280">
+        <columns>
+            <TableColumn text="ID" fx:id="appointmentIdColumn" prefWidth="80"/>
+            <TableColumn text="Ασθενής" fx:id="appointmentPatientColumn" prefWidth="160"/>
+            <TableColumn text="Ιατρός" fx:id="appointmentDoctorColumn" prefWidth="160"/>
+            <TableColumn text="Ημερομηνία / Ώρα" fx:id="appointmentDateTimeColumn" prefWidth="140"/>
+            <TableColumn text="Λόγος" fx:id="appointmentReasonColumn" prefWidth="200"/>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+</VBox>

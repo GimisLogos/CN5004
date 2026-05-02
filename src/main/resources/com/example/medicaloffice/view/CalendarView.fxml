@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.medicaloffice.controller.CalendarController">
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <!-- Toolbar -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <Button text="◄ Προηγ." onAction="#previousMonth" styleClass="button"/>
+        <Label fx:id="monthYearLabel" text="Ιανουάριος 2025" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <Button text="Επόμ. ►" onAction="#nextMonth" styleClass="button"/>
+        <Button text="Σήμερα" onAction="#today" styleClass="button-primary"/>
+    </HBox>
+
+    <Separator/>
+
+    <!-- Grid για τις ημέρες -->
+    <GridPane fx:id="calendarGrid" hgap="8" vgap="8">
+        <!-- Οι ημέρες θα προστεθούν δυναμικά -->
+    </GridPane>
+
+    <Separator/>
+
+    <!-- Λίστα ραντεβού επιλεγμένης ημέρας -->
+    <Label text="Ραντεβού επιλεγμένης ημέρας" styleClass="form-title"/>
+    <ListView fx:id="dayAppointmentsList" prefHeight="150">
+        <placeholder>
+            <Label text="Δεν υπάρχουν ραντεβού για αυτή την ημέρα"/>
+        </placeholder>
+    </ListView>
+
+</VBox>

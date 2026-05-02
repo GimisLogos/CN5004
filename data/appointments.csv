@@ -1,2 +1,3 @@
 AppointmentID,PatientID,DoctorID,ΗμερομηνίαΏρα,Λόγος,Σημειώσεις,Ολοκληρώθηκε
 APP003,PAT002,DOC004,2026-04-26 10:00,,,false
+APP004,PAT006,DOC004,2026-05-02 10:00,ασδαδσαδσα,,false
