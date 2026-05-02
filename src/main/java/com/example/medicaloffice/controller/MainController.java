@@ -730,14 +730,17 @@ public class MainController {
 
     @FXML
     private void handleAddPatient() {
-        try {
-            if (patientNameField.getText().isEmpty() || patientSurnameField.getText().isEmpty()) {
-                statusLabel.setText("Σφάλμα: Συμπληρώστε όνομα και επίθετο");
-                return;
-            }
+        if (!validatePatientFields()) return;
 
+        try {
             String oldId = (String) patientIdField.getUserData();
             String patientId = (oldId != null && !oldId.isEmpty()) ? oldId : generatePatientId();
+
+            // Αν το ιστορικό είναι κενό, βάλε default τιμή
+            String medicalHistory = patientHistoryArea.getText();
+            if (medicalHistory == null || medicalHistory.trim().isEmpty()) {
+                medicalHistory = "Χωρίς ιστορικό";
+            }
 
             Patient patient = new Patient(
                     patientId,
@@ -747,7 +750,7 @@ public class MainController {
                     patientEmailField.getText(),
                     patientBirthDatePicker.getValue(),
                     patientAmkaField.getText(),
-                    patientHistoryArea.getText()
+                    medicalHistory
             );
 
             if (oldId != null && !oldId.isEmpty()) {
@@ -770,17 +773,9 @@ public class MainController {
 
     @FXML
     private void handleAddDoctor() {
+        if (!validateDoctorFields()) return;
+
         try {
-            if (doctorNameField.getText().isEmpty() || doctorSurnameField.getText().isEmpty()) {
-                statusLabel.setText("Σφάλμα: Συμπληρώστε όνομα και επίθετο");
-                return;
-            }
-
-            if (doctorSpecialtyCombo.getValue() == null) {
-                statusLabel.setText("Σφάλμα: Επιλέξτε ειδικότητα");
-                return;
-            }
-
             String oldId = (String) doctorIdField.getUserData();
             String doctorId = (oldId != null && !oldId.isEmpty()) ? oldId : generateDoctorId();
 
@@ -816,12 +811,9 @@ public class MainController {
 
     @FXML
     private void handleAddAppointment() {
-        try {
-            if (appointmentPatientCombo.getValue() == null || appointmentDoctorCombo.getValue() == null) {
-                statusLabel.setText("Σφάλμα: Επιλέξτε ασθενή και ιατρό");
-                return;
-            }
+        if (!validateAppointmentFields()) return;
 
+        try {
             String oldId = (String) appointmentPatientCombo.getUserData();
             String appointmentId = (oldId != null && !oldId.isEmpty()) ? oldId : generateAppointmentId();
 
@@ -941,6 +933,258 @@ public class MainController {
         statusLabel.setText("Εμφανίζονται όλα τα ραντεβού");
     }
 
+    // ==================== VALIDATION METHODS ====================
+
+    private void setFieldError(TextField field, boolean hasError, String errorMessage) {
+        if (hasError) {
+            field.setStyle("-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 3;");
+            field.setTooltip(new Tooltip(errorMessage));
+        } else {
+            field.setStyle("");
+            field.setTooltip(null);
+        }
+    }
+
+    private void resetFieldStyle(TextField field) {
+        field.setStyle("");
+        field.setTooltip(null);
+    }
+
+    // Patient Validation
+    private boolean validatePatientFields() {
+        boolean isValid = true;
+        StringBuilder errors = new StringBuilder();
+
+        if (patientNameField.getText() == null || patientNameField.getText().trim().isEmpty()) {
+            setFieldError(patientNameField, true, "Το Όνομα είναι υποχρεωτικό");
+            errors.append("- Όνομα\n");
+            isValid = false;
+        } else if (!isValidName(patientNameField.getText())) {
+            setFieldError(patientNameField, true, "Όνομα: Μόνο γράμματα");
+            isValid = false;
+        } else {
+            resetFieldStyle(patientNameField);
+        }
+
+        if (patientSurnameField.getText() == null || patientSurnameField.getText().trim().isEmpty()) {
+            setFieldError(patientSurnameField, true, "Το Επίθετο είναι υποχρεωτικό");
+            errors.append("- Επίθετο\n");
+            isValid = false;
+        } else if (!isValidName(patientSurnameField.getText())) {
+            setFieldError(patientSurnameField, true, "Επίθετο: Μόνο γράμματα");
+            isValid = false;
+        } else {
+            resetFieldStyle(patientSurnameField);
+        }
+
+        if (patientPhoneField.getText() == null || patientPhoneField.getText().trim().isEmpty()) {
+            setFieldError(patientPhoneField, true, "Το Τηλέφωνο είναι υποχρεωτικό");
+            errors.append("- Τηλέφωνο\n");
+            isValid = false;
+        } else if (!isValidPhone(patientPhoneField.getText())) {
+            setFieldError(patientPhoneField, true, "Τηλέφωνο: 10 ψηφία");
+            isValid = false;
+        } else {
+            resetFieldStyle(patientPhoneField);
+        }
+
+        if (patientEmailField.getText() == null || patientEmailField.getText().trim().isEmpty()) {
+            setFieldError(patientEmailField, true, "Το Email είναι υποχρεωτικό");
+            errors.append("- Email\n");
+            isValid = false;
+        } else if (!isValidEmail(patientEmailField.getText())) {
+            setFieldError(patientEmailField, true, "Email: μη έγκυρη μορφή");
+            isValid = false;
+        } else {
+            resetFieldStyle(patientEmailField);
+        }
+
+        if (patientBirthDatePicker.getValue() == null) {
+            statusLabel.setText("Σφάλμα: Η Ημερομηνία Γέννησης είναι υποχρεωτική");
+            isValid = false;
+        } else if (!isValidBirthDate(patientBirthDatePicker.getValue())) {
+            statusLabel.setText("Σφάλμα: Μη έγκυρη ημερομηνία γέννησης");
+            isValid = false;
+        }
+
+        if (patientAmkaField.getText() == null || patientAmkaField.getText().trim().isEmpty()) {
+            setFieldError(patientAmkaField, true, "Το ΑΜΚΑ είναι υποχρεωτικό (11 ψηφία)");
+            errors.append("- ΑΜΚΑ\n");
+            isValid = false;
+        } else if (!isValidAmka(patientAmkaField.getText())) {
+            setFieldError(patientAmkaField, true, "ΑΜΚΑ: 11 ψηφία");
+            isValid = false;
+        } else {
+            resetFieldStyle(patientAmkaField);
+        }
+
+        if (!isValid) {
+            statusLabel.setText("Σφάλμα: Συμπληρώστε όλα τα υποχρεωτικά πεδία:\n" + errors.toString());
+        }
+
+        return isValid;
+    }
+
+    // Doctor Validation
+    private boolean validateDoctorFields() {
+        boolean isValid = true;
+        StringBuilder errors = new StringBuilder();
+
+        if (doctorNameField.getText() == null || doctorNameField.getText().trim().isEmpty()) {
+            setFieldError(doctorNameField, true, "Το Όνομα είναι υποχρεωτικό");
+            errors.append("- Όνομα\n");
+            isValid = false;
+        } else if (!isValidName(doctorNameField.getText())) {
+            setFieldError(doctorNameField, true, "Όνομα: Μόνο γράμματα");
+            isValid = false;
+        } else {
+            resetFieldStyle(doctorNameField);
+        }
+
+        if (doctorSurnameField.getText() == null || doctorSurnameField.getText().trim().isEmpty()) {
+            setFieldError(doctorSurnameField, true, "Το Επίθετο είναι υποχρεωτικό");
+            errors.append("- Επίθετο\n");
+            isValid = false;
+        } else if (!isValidName(doctorSurnameField.getText())) {
+            setFieldError(doctorSurnameField, true, "Επίθετο: Μόνο γράμματα");
+            isValid = false;
+        } else {
+            resetFieldStyle(doctorSurnameField);
+        }
+
+        if (doctorPhoneField.getText() == null || doctorPhoneField.getText().trim().isEmpty()) {
+            setFieldError(doctorPhoneField, true, "Το Τηλέφωνο είναι υποχρεωτικό");
+            errors.append("- Τηλέφωνο\n");
+            isValid = false;
+        } else if (!isValidPhone(doctorPhoneField.getText())) {
+            setFieldError(doctorPhoneField, true, "Τηλέφωνο: 10 ψηφία");
+            isValid = false;
+        } else {
+            resetFieldStyle(doctorPhoneField);
+        }
+
+        if (doctorEmailField.getText() == null || doctorEmailField.getText().trim().isEmpty()) {
+            setFieldError(doctorEmailField, true, "Το Email είναι υποχρεωτικό");
+            errors.append("- Email\n");
+            isValid = false;
+        } else if (!isValidEmail(doctorEmailField.getText())) {
+            setFieldError(doctorEmailField, true, "Email: μη έγκυρη μορφή");
+            isValid = false;
+        } else {
+            resetFieldStyle(doctorEmailField);
+        }
+
+        if (doctorBirthDatePicker.getValue() == null) {
+            statusLabel.setText("Σφάλμα: Η Ημερομηνία Γέννησης είναι υποχρεωτική");
+            isValid = false;
+        } else if (!isValidBirthDate(doctorBirthDatePicker.getValue())) {
+            statusLabel.setText("Σφάλμα: Μη έγκυρη ημερομηνία γέννησης");
+            isValid = false;
+        }
+
+        if (doctorSpecialtyCombo.getValue() == null) {
+            statusLabel.setText("Σφάλμα: Η Ειδικότητα είναι υποχρεωτική");
+            isValid = false;
+        }
+
+        if (doctorLicenseField.getText() == null || doctorLicenseField.getText().trim().isEmpty()) {
+            setFieldError(doctorLicenseField, true, "Ο Αριθμός Άδειας είναι υποχρεωτικός");
+            errors.append("- Αριθμός Άδειας\n");
+            isValid = false;
+        } else {
+            resetFieldStyle(doctorLicenseField);
+        }
+
+        if (doctorOfficeField.getText() == null || doctorOfficeField.getText().trim().isEmpty()) {
+            setFieldError(doctorOfficeField, true, "Το Ιατρείο είναι υποχρεωτικό");
+            errors.append("- Ιατρείο\n");
+            isValid = false;
+        } else {
+            resetFieldStyle(doctorOfficeField);
+        }
+
+        if (!isValid) {
+            statusLabel.setText("Σφάλμα: Συμπληρώστε όλα τα υποχρεωτικά πεδία:\n" + errors.toString());
+        }
+
+        return isValid;
+    }
+
+    // Appointment Validation
+    private boolean validateAppointmentFields() {
+        boolean isValid = true;
+        StringBuilder errors = new StringBuilder();
+
+        if (appointmentPatientCombo.getValue() == null) {
+            statusLabel.setText("Σφάλμα: Επιλέξτε ασθενή");
+            isValid = false;
+        }
+
+        if (appointmentDoctorCombo.getValue() == null) {
+            statusLabel.setText("Σφάλμα: Επιλέξτε ιατρό");
+            isValid = false;
+        }
+
+        if (appointmentDatePicker.getValue() == null) {
+            statusLabel.setText("Σφάλμα: Επιλέξτε ημερομηνία");
+            isValid = false;
+        }
+
+        if (appointmentTimeField.getText() == null || appointmentTimeField.getText().trim().isEmpty()) {
+            setFieldError(appointmentTimeField, true, "Η Ώρα είναι υποχρεωτική");
+            errors.append("- Ώρα\n");
+            isValid = false;
+        } else if (!isValidTime(appointmentTimeField.getText())) {
+            setFieldError(appointmentTimeField, true, "Ώρα: μορφή HH:MM");
+            isValid = false;
+        } else {
+            resetFieldStyle(appointmentTimeField);
+        }
+
+        if (appointmentReasonField.getText() == null || appointmentReasonField.getText().trim().isEmpty()) {
+            setFieldError(appointmentReasonField, true, "Ο Λόγος Επίσκεψης είναι υποχρεωτικός");
+            errors.append("- Λόγος Επίσκεψης\n");
+            isValid = false;
+        } else {
+            resetFieldStyle(appointmentReasonField);
+        }
+
+        if (!isValid) {
+            statusLabel.setText("Σφάλμα: Συμπληρώστε όλα τα υποχρεωτικά πεδία:\n" + errors.toString());
+        }
+
+        return isValid;
+    }
+
+    // Helper validation methods
+    private boolean isValidName(String name) {
+        return name != null && name.matches("[\\p{L}Α-Ωα-ω\\s-]+");
+    }
+
+    private boolean isValidPhone(String phone) {
+        return phone != null && phone.matches("^(69\\d{8}|2\\d{7})$");
+    }
+
+    private boolean isValidEmail(String email) {
+        if (email == null || email.trim().isEmpty()) return false;
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        return email.matches(emailRegex);
+    }
+
+    private boolean isValidAmka(String amka) {
+        return amka != null && amka.matches("\\d{11}");
+    }
+
+    private boolean isValidBirthDate(LocalDate date) {
+        if (date == null) return false;
+        LocalDate today = LocalDate.now();
+        return date.isBefore(today) && date.isAfter(today.minusYears(120));
+    }
+
+    private boolean isValidTime(String time) {
+        return time != null && time.matches("^([01]?[0-9]|2[0-3]):[0-5][0-9]$");
+    }
+
     // ==================== MENU HANDLERS ====================
 
     @FXML
@@ -961,7 +1205,7 @@ public class MainController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Σχετικά");
         alert.setHeaderText("Σύστημα Διαχείρισης Ιατρείου");
-        alert.setContentText("Έκδοση 1.0\n\n- Auto-ID (PATxxx, DOCxxx, APPxxx)\n- Export CSV\n- Double-click edit\n- Ημερολόγιο Ραντεβού\n- Επαγγελματικό UI");
+        alert.setContentText("Έκδοση 1.0\n\n- Auto-ID (PATxxx, DOCxxx, APPxxx)\n- Export CSV\n- Double-click edit\n- Ημερολόγιο Ραντεβού\n- Υποχρεωτικά πεδία με *\n- Επαγγελματικό UI");
         alert.showAndWait();
     }
 

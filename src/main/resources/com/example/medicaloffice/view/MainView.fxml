@@ -19,25 +19,25 @@
 
                     <VBox styleClass="form-card">
                         <GridPane hgap="15" vgap="12">
-                            <Label text="Όνομα:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <Label text="Όνομα *" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
                             <TextField fx:id="patientNameField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-                            <Label text="Επίθετο:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                            <Label text="Επίθετο *" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
                             <TextField fx:id="patientSurnameField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-                            <Label text="Τηλέφωνο:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                            <Label text="Τηλέφωνο *" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
                             <TextField fx:id="patientPhoneField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-                            <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                            <Label text="Email *" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
                             <TextField fx:id="patientEmailField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
-                            <Label text="Ημ. Γέννησης:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                            <Label text="Ημ. Γέννησης *" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
                             <DatePicker fx:id="patientBirthDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-                            <Label text="ΑΜΚΑ:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                            <Label text="ΑΜΚΑ *" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
                             <TextField fx:id="patientAmkaField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
-                            <Label text="Ιατρικό Ιστορικό:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                            <Label text="Ιατρικό Ιστορικό" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
                             <TextArea fx:id="patientHistoryArea" GridPane.columnIndex="1" GridPane.rowIndex="6" prefHeight="60" prefWidth="300"/>
 
                             <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="7">
@@ -87,28 +87,28 @@
 
                     <VBox styleClass="form-card">
                         <GridPane hgap="15" vgap="12">
-                            <Label text="Όνομα:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <Label text="Όνομα *" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
                             <TextField fx:id="doctorNameField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-                            <Label text="Επίθετο:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                            <Label text="Επίθετο *" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
                             <TextField fx:id="doctorSurnameField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-                            <Label text="Τηλέφωνο:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                            <Label text="Τηλέφωνο *" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
                             <TextField fx:id="doctorPhoneField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-                            <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                            <Label text="Email *" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
                             <TextField fx:id="doctorEmailField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
-                            <Label text="Ημ. Γέννησης:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                            <Label text="Ημ. Γέννησης *" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
                             <DatePicker fx:id="doctorBirthDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-                            <Label text="Ειδικότητα:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                            <Label text="Ειδικότητα *" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
                             <ComboBox fx:id="doctorSpecialtyCombo" GridPane.columnIndex="1" GridPane.rowIndex="5" prefWidth="200"/>
 
-                            <Label text="Αριθμός Άδειας:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                            <Label text="Αριθμός Άδειας *" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
                             <TextField fx:id="doctorLicenseField" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
 
-                            <Label text="Ιατρείο:" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                            <Label text="Ιατρείο *" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
                             <TextField fx:id="doctorOfficeField" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
 
                             <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="8">
@@ -157,22 +157,22 @@
 
                     <VBox styleClass="form-card">
                         <GridPane hgap="15" vgap="12">
-                            <Label text="Ασθενής:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <Label text="Ασθενής *" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
                             <ComboBox fx:id="appointmentPatientCombo" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="250"/>
 
-                            <Label text="Ιατρός:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                            <Label text="Ιατρός *" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
                             <ComboBox fx:id="appointmentDoctorCombo" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="250"/>
 
-                            <Label text="Ημερομηνία:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                            <Label text="Ημερομηνία *" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
                             <DatePicker fx:id="appointmentDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-                            <Label text="Ώρα:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                            <Label text="Ώρα *" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
                             <TextField fx:id="appointmentTimeField" GridPane.columnIndex="1" GridPane.rowIndex="3" promptText="HH:MM"/>
 
-                            <Label text="Λόγος Επίσκεψης:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                            <Label text="Λόγος Επίσκεψης" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
                             <TextField fx:id="appointmentReasonField" GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="300"/>
 
-                            <Label text="Σημειώσεις:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                            <Label text="Σημειώσεις" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
                             <TextArea fx:id="appointmentNotesArea" GridPane.columnIndex="1" GridPane.rowIndex="5" prefHeight="60" prefWidth="300"/>
 
                             <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="6">
