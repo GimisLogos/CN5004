@@ -1,3 +1,21 @@
+/*
+ * ΑΡΜΟΔΙΟΤΗΤΕΣ:
+ * 1. Φόρτωση όλων των tabs (Ασθενείς, Ιατροί, Ραντεβού, Ημερολόγιο)
+ * 2. Δημιουργία και διαχείριση των επιμέρους controllers
+ * 3. Διαχείριση status bar (χρωματικά μηνύματα)
+ * 4. Κεντρική γραμμή κατάστασης (ready, success, error, info, warning)
+ *
+ * ΚΥΡΙΕΣ ΜΕΘΟΔΟΙ & ΓΡΑΜΜΕΣ:
+ *
+ * loadTabs()          - Δημιουργία και φόρτωση όλων των tabs (γραμμή ~48)
+ * createTab()         - Δημιουργία ενός tab και σύνδεση controller (γραμμή ~68)
+ * setDataManager()    - Πέρασμα DataManager σε όλους (γραμμή ~42)
+ * setStatusSuccess()  - Πράσινο μήνυμα επιτυχίας (γραμμή ~100)
+ * setStatusError()    - Κόκκινο μήνυμα σφάλματος (γραμμή ~106)
+ * setStatusInfo()     - Μπλε μήνυμα πληροφορίας (γραμμή ~112)
+ * setStatusWarning()  - Πορτοκαλί μήνυμα προειδοποίησης (γραμμή ~118)
+ * setStatusReady()    - Επαναφορά σε "Ready" (γραμμή ~124)
+ */
 package com.example.medicaloffice.controller;
 
 import com.example.medicaloffice.dao.DataManager;

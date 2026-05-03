@@ -1,3 +1,22 @@
+/*
+ * ΑΡΜΟΔΙΟΤΗΤΕΣ:
+ * 1. CRUD λειτουργίες για ιατρούς
+ * 2. Αναζήτηση (ID, όνομα, επίθετο, ειδικότητα)
+ * 3. Εξαγωγή σε CSV
+ * 4. Validation όλων των πεδίων (όλα είναι υποχρεωτικά)
+ * 5. Auto-ID generation (DOC001, DOC002...)
+ *
+ * ΚΥΡΙΕΣ ΜΕΘΟΔΟΙ & ΓΡΑΜΜΕΣ:
+ *
+ * handleAddDoctor()          - Προσθήκη ή ενημέρωση ιατρού (γραμμή ~302)
+ * validateDoctorFields()     - Έλεγχος υποχρεωτικών πεδίων (γραμμή ~232)
+ * searchDoctors()            - Αναζήτηση ιατρών (γραμμή ~164)
+ * resetDoctorSearch()        - Επαναφορά αναζήτησης (γραμμή ~190)
+ * exportDoctorsToCSV()       - Εξαγωγή σε CSV (γραμμή ~387)
+ * generateDoctorId()         - Auto-ID: DOC001, DOC002... (γραμμή ~144)
+ * deleteDoctor()             - Διαγραφή ιατρού και ραντεβού του (γραμμή ~352)
+ * openDoctorEditDialog()     - Φόρτωση στοιχείων για επεξεργασία (γραμμή ~338)
+ */
 package com.example.medicaloffice.controller;
 
 import com.example.medicaloffice.dao.DataManager;

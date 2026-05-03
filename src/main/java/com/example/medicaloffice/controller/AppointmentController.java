@@ -1,3 +1,24 @@
+/*
+ * ΑΡΜΟΔΙΟΤΗΤΕΣ:
+ * 1. Κλείσιμο νέων ραντεβού
+ * 2. Αναζήτηση ραντεβού (ασθενής, ιατρός, λόγος)
+ * 3. Επεξεργασία και διαγραφή ραντεβού
+ * 4. Προβολή ραντεβού σήμερα
+ * 5. Εξαγωγή σε CSV
+ * 6. Έλεγχος διπλοκρατήσεων (μέσω DataManager)
+ *
+ * ΚΥΡΙΕΣ ΜΕΘΟΔΟΙ & ΓΡΑΜΜΕΣ:
+ *
+ * handleAddAppointment()      - Κλείσιμο ραντεβού (γραμμή ~217)
+ * validateAppointmentFields() - Έλεγχος υποχρεωτικών πεδίων (γραμμή ~160)
+ * handleSearchAppointments()  - Αναζήτηση ραντεβού (γραμμή ~295)
+ * handleTodayAppointments()   - Εμφάνιση σημερινών ραντεβού (γραμμή ~325)
+ * handleShowAllAppointments() - Εμφάνιση όλων (γραμμή ~333)
+ * exportAppointmentsToCSV()   - Εξαγωγή σε CSV (γραμμή ~341)
+ * generateAppointmentId()     - Auto-ID: APP001, APP002... (γραμμή ~121)
+ * deleteAppointment()         - Διαγραφή ραντεβού (γραμμή ~265)
+ * openAppointmentEditDialog() - Επεξεργασία (γραμμή ~254)
+ */
 package com.example.medicaloffice.controller;
 
 import com.example.medicaloffice.dao.DataManager;

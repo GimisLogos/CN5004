@@ -1,3 +1,42 @@
+/*
+ * ==================== DATA MANAGER ====================
+ *
+ * ΑΡΜΟΔΙΟΤΗΤΕΣ:
+ * 1. Αποθήκευση δεδομένων σε CSV αρχεία
+ * 2. Φόρτωση δεδομένων από CSV αρχεία
+ * 3. CRUD λειτουργίες (Add, Delete, Update, Find)
+ * 4. Έλεγχος διπλοκρατήσεων ραντεβού
+ * 5. Δημιουργία φακέλου data/ αυτόματα
+ *
+ * ΚΥΡΙΕΣ ΜΕΘΟΔΟΙ & ΓΡΑΜΜΕΣ:
+ *
+ * saveAllData()           - Αποθήκευση όλων των δεδομένων
+ * loadAllData()           - Φόρτωση όλων των δεδομένων
+ * savePatientsToCSV()     - Αποθήκευση ασθενών σε CSV
+ * loadPatientsFromCSV()   - Φόρτωση ασθενών από CSV
+ * saveDoctorsToCSV()      - Αποθήκευση ιατρών σε CSV
+ * loadDoctorsFromCSV()    - Φόρτωση ιατρών από CSV
+ * saveAppointmentsToCSV() - Αποθήκευση ραντεβού σε CSV
+ * loadAppointmentsFromCSV()- Φόρτωση ραντεβού από CSV
+ * addPatient()            - Προσθήκη ασθενούς
+ * addDoctor()             - Προσθήκη ιατρού
+ * addAppointment()        - Προσθήκη ραντεβού
+ * isDoubleBooked()        - Έλεγχος διπλοκράτησης (ιατρός + ασθενής)
+ * deletePatient()         - Διαγραφή ασθενούς
+ * deleteDoctor()          - Διαγραφή ιατρού
+ * deleteAppointment()     - Διαγραφή ραντεβού
+ * findPatientById()       - Αναζήτηση ασθενούς με ID
+ * findDoctorById()        - Αναζήτηση ιατρού με ID
+ * getAppointmentsForToday()- Ραντεβού σήμερα
+ * getNextAppointment()    - Επόμενο ραντεβού
+ *
+ * ΣΗΜΑΝΤΙΚΑ ΣΤΟΙΧΕΙΑ:
+ * - DATA_DIR = "data/" (φάκελος αποθήκευσης)
+ * - doctors.csv, patients.csv, appointments.csv
+ * - UTF-8 BOM ('\ufeff') για σωστά ελληνικά στο Excel
+ *
+ * ===================================================
+ */
 package com.example.medicaloffice.dao;
 
 import com.example.medicaloffice.model.*;

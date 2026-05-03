@@ -8,7 +8,7 @@
 
     <center>
         <TabPane fx:id="mainTabPane">
-            <!-- Τα tabs θα γεμίσουν δυναμικά από το MainController -->
+            <!-- Τα tabs γεμίσουν δυναμικά από το MainController -->
         </TabPane>
     </center>
 

@@ -1,3 +1,18 @@
+/*
+ * ΑΡΜΟΔΙΟΤΗΤΕΣ:
+ * - Διαχείριση ασθενών (CRUD)
+ * - Αναζήτηση και φιλτράρισμα
+ * - Export CSV
+ * - Validation πεδίων
+ *
+ * ΚΥΡΙΕΣ ΜΕΘΟΔΟΙ & ΓΡΑΜΜΕΣ:
+ * - handleAddPatient()      : ~γραμμή 200 (προσθήκη/ενημέρωση)
+ * - searchPatients()        : ~γραμμή 300 (αναζήτηση)
+ * - deletePatient()         : ~γραμμή 350 (διαγραφή)
+ * - exportPatientsToCSV()   : ~γραμμή 400 (εξαγωγή)
+ * - validatePatientFields() : ~γραμμή 250 (έλεγχος εγκυρότητας)
+ * ============================================================
+ */
 package com.example.medicaloffice.controller;
 
 import com.example.medicaloffice.dao.DataManager;
